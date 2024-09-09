@@ -29,7 +29,7 @@ const data = [
 const content = data.map((item)=>{
     return `<div id="box-${item.num}" class="box">${item.num}</div>`;
 })
-return content;§
+return content;
 }
 
 //Négyzetek megjelenítése a html-ben:
