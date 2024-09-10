@@ -2,6 +2,12 @@
 body{
     font-family: Arial, Helvetica, sans-serif;
     background-color: hsl(178, 71%, 80%);
+    background-image: url("../image.png");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+    height: 50vh;
+
 }
 main{
     height: 100vh;

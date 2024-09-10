@@ -26,9 +26,8 @@ const makeBoxes = () =>{
         {num : 14},
         {num : 15}
     ];
-    const content = data.map((item)=>{
-        return `<div id="box-${item.num}" class="box">${item.num}</div>`;
-    })
+    const content = data.map(item=>
+        `<div id="box-${item.num}" class="box">${item.num}</div>`)
     return content;
 }
 
@@ -47,16 +46,92 @@ const renderBoxes = () => {
 //console.log("A boxlista1:", boxes); // log
 
 
-document.addEventListener("DOMContentLoaded", ()=>{
-    renderBoxes();
-    const boxes = document.querySelectorAll(".box");
-    console.log("A boxlista3:", boxes); // log
-});
 
 // Tennivalók:
 // 1. Kivenni az input mező értékét
+getInputValue = function(){
+    return document.querySelector("#input-value").value;
+}
 // 2. Megfelelő-e az érték (nem string, 1-15 között van)
+const checkValue = () =>{
+    const value = getInputValue();
+    if(!value.trim()){
+        return [false,0]
+
+    }
+    if(isNaN(value)){
+        return [false,0]
+    }
+    const currentValue = parseInt(value);
+    if(currentValue < 1 || currentValue > 15){
+        return [false,0]
+    }
+    return [true,currentValue];
+}
 // 3. A szinező gombra eseménykezelő hozzáadása - színező callback-eljárás
+
+
+
+
+
 // 4. Véletlenszín
+const getRandomColor = () =>{
+    return Math.floor(Math.random() * 256);
+}
+
+// Színezés végrehajtása
+
+
 // 5. Számokból színt készítő függvény
-// 6. 3.feladat színező eljárásában alkalmazni ezt a színt
+const createColor = () =>{
+    const r = getRandomColor();
+    const g = getRandomColor();
+    const b = getRandomColor();
+    return [ r, g, b];
+}
+const coloringBoxes = () =>{
+    const [isValid, number ] = checkValue();
+    if (!isValid){
+        sendErrorMessage();
+        return;
+    }
+    const boxes = document.querySelectorAll(".box");
+    const box = Array.from(boxes).find(b => Number(b.id) === number);
+    const [r,g,b] = createColor();
+    box.style.backgroundColor = `rgb(${r},${g},${b})`;
+}
+ 
+function sendErrorMessage(){
+    alert("Helytelen értéket adott meg!");
+}
+
+function clearInput(){
+    const inputElement = document.querySelector("#num");
+    inputElement.value = "none";
+    inputElement.focus();
+}
+
+const coloring = () =>{
+    const button = document.querySelector("#color");
+    button.addEventListener("click",coloringBoxes)
+    button.addEventListener("click",()=>{
+        coloringBoxes();
+        clearInput();
+    })
+}
+
+
+const resetpage = () =>{
+    const button = document.querySelector("#reset");
+    button.addEventListener("click",()=>{
+        renderBoxes();
+        
+    })
+}
+
+document.addEventListener("DOMContentLoaded", ()=>{
+    renderBoxes();
+    coloring();
+    const boxes = document.querySelectorAll(".box");
+    console.log("A boxlista3:", boxes); // log
+});
